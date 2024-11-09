@@ -7,7 +7,7 @@
 Create the token api deployment
 
 ```sh
-kubectl apply -f manifests/kubernetes-dashboard-token.api.yaml
+kubectl apply -f manifests/kubernetes-dashboard-token-api.yaml
 ```
 
 To create an ingress, change the host in the [ingress.yaml](./manifests/ingress.yaml) file
