@@ -4,17 +4,17 @@ A bearer token generator ui and api that will generate a valid token that can be
 
 ## Usage
 
-The bearer-token-api requires a kube config
+Running this assume kubectl is installed and has a valid kubeconfig configured
 
 ```sh
-fastapi dev main.py
+KUBECTL_CMD=$(which kubectl) fastapi dev main.py
 ```
 
-Visit [localhost:8000](localhost:8000) to get a token
+Visit [localhost:8000](https://localhost:8000) to get a token
 
 ### api
 
-Reive a token RESTfully
+retrieve a token RESTfully
 
 ```sh
 curl http://localhost:8000/json
