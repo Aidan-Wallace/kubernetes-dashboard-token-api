@@ -47,3 +47,4 @@ docker run --rm -v -d <kube config location>:/data/config.conf -p 8082:80 aidanw
 - Take `KUBECTL_CMD` and `KUBERNETES_DASHBOARD_URL` as build args in the Dockerfile
 - Linting action
 - Use distroless container
+- Add health check endpoints
