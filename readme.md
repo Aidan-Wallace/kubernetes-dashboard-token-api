@@ -43,7 +43,6 @@ docker run --rm -v -d <kube config location>:/data/config.conf -p 8082:80 aidanw
 
 ## TODO
 
-- Create query param to skip redirecting after visiting the web ui and automatically copying the token
 - Take `KUBECTL_CMD` and `KUBERNETES_DASHBOARD_URL` as build args in the Dockerfile
 - Linting action
 - Use distroless container
