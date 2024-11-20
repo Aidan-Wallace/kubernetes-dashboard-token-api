@@ -30,7 +30,7 @@ docker build -t aidanwallace/kubernetes-dashboard-token-api .
 
 # run the image
 docker run --rm -v -d <kube config location>:/data/config.conf -p 8082:80 aidanwallace/kubernetes-dashboard-token-api
-# example: 'docker run --rm -v -d ./.cache/config.conf:/data/config.conf -p 8082:80 aidanwallace/kubernetes-dashboard-token-api'
+# example: 'docker run --rm -d -v ./.cache/config.conf:/data/config.conf -p 8082:80 aidanwallace/kubernetes-dashboard-token-api'
 
 ```
 
@@ -47,3 +47,4 @@ docker run --rm -v -d <kube config location>:/data/config.conf -p 8082:80 aidanw
 - Take `KUBECTL_CMD` and `KUBERNETES_DASHBOARD_URL` as build args in the Dockerfile
 - Linting action
 - Use distroless container
+- Add health check endpoints
