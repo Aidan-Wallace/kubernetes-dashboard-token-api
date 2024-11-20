@@ -44,12 +44,19 @@ def get_token():
 @app.get("/", response_class=HTMLResponse)
 def get_bearer_token():
     result = get_token()
-    logger.info(f"received request to get dashboard token. token: {result}")
+    logger.info(f"received request to get dashboard token from webui. token: {result}")
     return html.replace("{TOKEN}", result)
 
 
 @app.get("/json")
 def get_bearer_token_json():
     result = get_token()
-    logger.info(f"received request to get dashboard token. token: {result}")
+    logger.info(f"received request to get dashboard token as json. token: {result}")
     return {"result": result}
+
+
+@app.get("/text", response_class=HTMLResponse)
+def get_bearer_token_string():
+    result = get_token()
+    logger.info(f"received request to get dashboard token as string. token: {result}")
+    return result
