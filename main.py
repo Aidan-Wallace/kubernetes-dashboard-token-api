@@ -2,7 +2,7 @@ import logging
 import dotenv
 import os
 import subprocess
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.responses import HTMLResponse
 
 HTML_FILE = "index.html"
@@ -42,10 +42,11 @@ def get_token():
 
 
 @app.get("/", response_class=HTMLResponse)
-def get_bearer_token():
+def get_bearer_token(redirect: bool = Query(default=True)):
     result = get_token()
     logger.info(f"received request to get dashboard token from webui. token: {result}")
-    return html.replace("{TOKEN}", result)
+
+    return html.replace("{TOKEN}", result).replace("{REDIRECT}", str(redirect))
 
 
 @app.get("/json")
