@@ -1,1 +1,79 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <title>Kubernetes Dashboard Bearer Token Generator</title> <style> content { width: 100vw; display: flex; flex-direction: column; justify-content: center; align-items: center; } #copyButton { padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; } #copyButton:hover { background-color: #0056b3; } #text { width: 100; } #status { display: flex; flex-direction: column; align-items: center; } .status-text { font-size: xx-large; font-family: Verdana; font-weight: 900; } .hidden { display: none !important; } </style> </head> <body> <content> <input type="text" id="textToCopy" value="{TOKEN}" readonly val /> <button id="copyButton">Copy Text</button> <a href="{KUBERNETES_DASHBOARD_URL}">Go to dashboard</a> <div id="status" class="hidden"> <span class="status-text">Token Copied</span> <span class="status-text" >Redirecting to {KUBERNETES_DASHBOARD_URL}</span > </div> </content> <script> const textToCopyEl = document.getElementById("textToCopy"); const buttonEl = document.getElementById("copyButton"); const statusTextEl = document.getElementById("status"); copy = () => navigator.clipboard .writeText(textToCopyEl.value) .catch((err) => console.error("Failed to copy text: ", err)); buttonEl.onclick = () => copy(); (() => { setTimeout(() => { copy(); statusTextEl.classList.remove("hidden"); window.location.href = "{KUBERNETES_DASHBOARD_URL}"; }, 200); })(); </script> </body> </html>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Kubernetes Dashboard Bearer Token Generator</title>
+		<style>
+			content {
+				width: 100vw;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			#copyButton {
+				padding: 10px 15px;
+				background-color: #007bff;
+				color: white;
+				border: none;
+				border-radius: 5px;
+				cursor: pointer;
+			}
+			#copyButton:hover {
+				background-color: #0056b3;
+			}
+			#text {
+				width: 100;
+			}
+			#status {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+			.status-text {
+				font-size: xx-large;
+				font-family: Verdana;
+				font-weight: 900;
+			}
+			.hidden {
+				display: none !important;
+			}
+		</style>
+	</head>
+	<body>
+		<content>
+			<input type="text" id="textToCopy" value="{TOKEN}" readonly val />
+			<button id="copyButton">Copy Text</button>
+			<a href="{KUBERNETES_DASHBOARD_URL}">Go to dashboard</a>
+			<div id="status" class="hidden">
+				<span class="status-text">Token Copied</span>
+				<span class="status-text"
+					>Redirecting to {KUBERNETES_DASHBOARD_URL}</span
+				>
+			</div>
+		</content>
+		<script>
+			const textToCopyEl = document.getElementById("textToCopy");
+			const buttonEl = document.getElementById("copyButton");
+			const statusTextEl = document.getElementById("status");
+			copy = () =>
+				navigator.clipboard
+					.writeText(textToCopyEl.value)
+					.catch((err) => console.error("Failed to copy text: ", err));
+			buttonEl.onclick = () => copy();
+			(() => {
+				setTimeout(() => {
+					if (
+						"{REDIRECT}" == "True" &&
+						"{KUBERNETES_DASHBOARD_URL}".includes("http")
+					) {
+						copy();
+						statusTextEl.classList.remove("hidden");
+						window.location.href = "{KUBERNETES_DASHBOARD_URL}";
+					}
+				}, 2000);
+			})();
+		</script>
+	</body>
+</html>
