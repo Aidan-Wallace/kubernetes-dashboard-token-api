@@ -91,3 +91,11 @@ venv/
 */*.swp
 */*/*.swp
 */*/*/*.swp
+
+# Other
+.github
+.gitignore
+.vscode
+Dockerfile
+k8s
+readme.md
