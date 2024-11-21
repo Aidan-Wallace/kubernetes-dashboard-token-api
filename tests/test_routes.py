@@ -33,6 +33,9 @@ class TestRoutes:
 
     @pytest.fixture(autouse=True)
     def set_env_vars(self, monkeypatch: pytest.MonkeyPatch):
+        # Note: This isn't working as expected. all environment
+        # variables used are set in `__init__.py`.
+
         monkeypatch.setenv("HTML_FILE", "templates/index.html")
         monkeypatch.setenv("KUBECTL_CMD", "/usr/local/bin/kubectl")
         monkeypatch.setenv(
