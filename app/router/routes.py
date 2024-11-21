@@ -59,4 +59,5 @@ def get_bearer_token_string():
     response_model=HealthCheck,
 )
 def get_health() -> HealthCheck:
+    logger.info("Health check was requested")
     return HealthCheck(status="OK")
