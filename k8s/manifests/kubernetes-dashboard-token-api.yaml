@@ -29,6 +29,12 @@ spec:
           env:
             - name: KUBERNETES_DASHBOARD_URL
               value: "" # TODO: set dashboard redirect url here
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 3
 ---
 apiVersion: v1
 kind: Service

@@ -3,6 +3,11 @@ name: Python Test and Lint
 on:
   pull_request:
     branches: [main]
+    paths:
+      - app/**
+      - static/**
+      - templates/**
+      - tests/**
 
 jobs:
   build:
