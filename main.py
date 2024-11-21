@@ -4,35 +4,44 @@ import os
 import subprocess
 from fastapi import FastAPI, Query
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 
-HTML_FILE = "index.html"
-KUBERNETES_DASHBOARD_URL_KEY = "KUBERNETES_DASHBOARD_URL"
+HTML_FILE = "HTML_FILE"
 KUBECTL_CMD_KEY = "KUBECTL_CMD"
+KUBERNETES_DASHBOARD_URL_KEY = "KUBERNETES_DASHBOARD_URL"
+STATIC_DIRECTORY = "STATIC_DIRECTORY"
 
 dotenv.load_dotenv()
 
 logger = logging.getLogger("uvicorn.error")
 
-kubernetes_dashboard_url = os.getenv("KUBERNETES_DASHBOARD_URL")
-kubectl_cmd = os.getenv(KUBECTL_CMD_KEY)
+html_file = os.environ.get(HTML_FILE, "templates/index.html")
+kubectl_cmd = os.environ.get(KUBECTL_CMD_KEY)
+kubernetes_dashboard_url = os.environ.get("KUBERNETES_DASHBOARD_URL")
+static_directory = os.environ.get(STATIC_DIRECTORY, "static")
+
+logger.info(f"found '{html_file}' as html file")
+logger.info(f"found '{kubectl_cmd}' as kubectl command")
+logger.info(f"found '{kubernetes_dashboard_url}' as dashboard url")
+logger.info(f"found '{static_directory}' as static data directory")
 
 if kubectl_cmd is None:
     logger.error(f"find env var '{KUBECTL_CMD_KEY}'")
     raise EnvironmentError(f"Cannot find env var '{KUBECTL_CMD_KEY}'")
+if not os.path.exists(html_file):
+    raise FileNotFoundError(f"Cannot find file: '{html_file}'")
+if not os.path.exists(static_directory):
+    raise FileNotFoundError(f"Cannot find directory: '{static_directory}'")
 
-logger.info(f"found '{kubernetes_dashboard_url}' as dashboard url")
-logger.info(f"found '{kubectl_cmd}' as kubectl command")
-
-if not os.path.exists(HTML_FILE):
-    raise FileNotFoundError(f"Cannot find file: '{HTML_FILE}'")
-
-with open(HTML_FILE, "r") as f:
+with open(html_file, "r") as f:
     html = f.read()
 
 if kubernetes_dashboard_url is not None:
     html = html.replace("{KUBERNETES_DASHBOARD_URL}", kubernetes_dashboard_url)
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory=static_directory), name=static_directory)
 
 
 def get_token():
