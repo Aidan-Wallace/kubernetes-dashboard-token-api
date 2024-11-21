@@ -26,6 +26,9 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "500m"
+          env:
+            - name: KUBERNETES_DASHBOARD_URL
+              value: "" # TODO: set dashboard redirect url here
 ---
 apiVersion: v1
 kind: Service

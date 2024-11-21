@@ -6,6 +6,8 @@
 
 Create the token api deployment
 
+If wanting to use the redirect to Kubernetes dashboard feature, set the `KUBERNETES_DASHBOARD_URL` env var in the [kubernetes-dashboard-token-api.**yaml**](./manifests/kubernetes-dashboard-token-api.yaml) file
+
 ```sh
 kubectl apply -f manifests/kubernetes-dashboard-token-api.yaml
 ```

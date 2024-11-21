@@ -7,10 +7,12 @@ A bearer token generator ui and api that will generate a valid token that can be
 Running this assume kubectl is installed and has a valid kubeconfig configured
 
 ```sh
-KUBECTL_CMD=$(which kubectl) fastapi dev main.py
+KUBECTL_CMD=$(which kubectl) uvicorn app.main:app
 ```
 
 Visit [localhost:8000](https://localhost:8000) to get a token
+
+Visit [localhost:8000?redirect=false](https://localhost:8000?redirect=false) to get a token without redirecting to a Kubernetes dashboard
 
 ### api
 
@@ -46,7 +48,6 @@ docker run --rm -v -d <kube config location>:/data/config.conf -p 8082:80 aidanw
 
 ## TODO
 
-- Take `KUBECTL_CMD` and `KUBERNETES_DASHBOARD_URL` as build args in the Dockerfile
-- Linting action
 - Use distroless container
 - Add health check endpoints
+- Switch to better env like poetry or pyenv. pytest and ruff should not get installed in container

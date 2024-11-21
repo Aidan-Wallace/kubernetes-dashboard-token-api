@@ -93,9 +93,12 @@ venv/
 */*/*/*.swp
 
 # Other
+.dockerignore
 .github
 .gitignore
+.pytest_cache
 .vscode
 Dockerfile
 k8s
 readme.md
+tests

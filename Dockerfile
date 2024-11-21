@@ -20,4 +20,4 @@ ENV KUBECTL_CMD="/usr/local/bin/kubectl"
 ENV KUBECONFIG=$KUBECONFIG
 
 EXPOSE 80
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
