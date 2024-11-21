@@ -49,5 +49,4 @@ docker run --rm -v -d <kube config location>:/data/config.conf -p 8082:80 aidanw
 ## TODO
 
 - Use distroless container
-- Add health check endpoints
 - Switch to better env like poetry or pyenv. pytest and ruff should not get installed in container
