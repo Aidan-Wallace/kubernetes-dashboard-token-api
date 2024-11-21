@@ -5,8 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - /path/to/kubeconfig:/data/config.conf:ro # *required* - Set the target kubeconfig file to use
+      - ${KUBECONFIG:-/path/to/kubeconfig}:/data/config.conf:ro # *required* - Set the target kubeconfig file to use
     ports:
-      - 8080:80
+      - 8000:80
     environment:
-      - KUBERNETES_DASHBOARD_URL= # Set url here. If no url is provided, no redirection will occur
+      - KUBERNETES_DASHBOARD_URL=${KUBERNETES_DASHBOARD_URL:-} # Set url here. If no url is provided, no redirection will occur

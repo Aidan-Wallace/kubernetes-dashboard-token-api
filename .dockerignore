@@ -93,6 +93,7 @@ venv/
 */*/*/*.swp
 
 # Other
+.dockerignore
 .github
 .gitignore
 .vscode
