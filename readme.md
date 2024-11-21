@@ -36,10 +36,13 @@ docker run --rm -v -d <kube config location>:/data/config.conf -p 8082:80 aidanw
 
 ## Env
 
-| key                      | description                                      | type   | required | default |
-| ------------------------ | ------------------------------------------------ | ------ | -------- | ------- |
-| KUBECTL_CMD              | Command to run kubectl                           | string | true     |         |
-| KUBERNETES_DASHBOARD_URL | Url to the kubernetes dashboard used to redirect | string | true     |         |
+| key                      | description                                                    | type   | required | default      |
+| ------------------------ | -------------------------------------------------------------- | ------ | -------- | ------------ |
+| HTML_FILE                | Path to the index.html file used to server the root of the api | string | false    | ./index.html |
+| KUBECONFIG               | Path to kubeconfig. Used to talk with Kubernetes api           | string | true     |              |
+| KUBECTL_CMD              | Command to run kubectl                                         | string | true     |              |
+| KUBERNETES_DASHBOARD_URL | Url to the kubernetes dashboard used to redirect               | string | false    | null         |
+| STATIC_DIRECTORY         | Path to static data directory                                  | string | false    | ./static     |
 
 ## TODO
 
