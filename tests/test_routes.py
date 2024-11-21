@@ -23,13 +23,19 @@ class TestRoutes:
         response = self.client.get("/json")
 
         assert response.status_code == 200
-        assert response.json() == {"result": "mocked-token"}
+        assert response.json() == {"token": "mocked-token"}
 
     def test_get_bearer_token_string(self):
         response = self.client.get("/text")
 
         assert response.status_code == 200
         assert response.text == "mocked-token"
+
+    def test_get_health(self):
+        response = self.client.get("/health")
+
+        assert response.status_code == 200
+        assert response.json() == {"status": "OK"}
 
     @pytest.fixture(autouse=True)
     def set_env_vars(self, monkeypatch: pytest.MonkeyPatch):
