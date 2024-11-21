@@ -7,7 +7,7 @@ A bearer token generator ui and api that will generate a valid token that can be
 Running this assume kubectl is installed and has a valid kubeconfig configured
 
 ```sh
-KUBECTL_CMD=$(which kubectl) uvicorn app.main:app
+KUBECTL_CMD=$(which kubectl) fastapi dev app/main.py
 ```
 
 Visit [localhost:8000](https://localhost:8000) to get a token
