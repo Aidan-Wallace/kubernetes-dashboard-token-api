@@ -37,22 +37,45 @@
 			const textToCopyEl = document.getElementById("textToCopy");
 			const buttonEl = document.getElementById("copyButton");
 			const statusTextEl = document.getElementById("status");
-			copy = () =>
-				navigator.clipboard
-					.writeText(textToCopyEl.value)
-					.catch((err) => console.error("Failed to copy text: ", err));
-			buttonEl.onclick = () => copy();
+			const copy = async () => {
+				try {
+					await navigator.clipboard.writeText(textToCopyEl.value);
+					console.log("Token copied successfully");
+					return true;
+				} catch (err) {
+					console.error("Failed to copy text: ", err);
+					try {
+						textToCopyEl.select();
+						document.execCommand('copy');
+						console.log("Token copied using fallback method");
+						return true;
+					} catch (fallbackErr) {
+						console.error("Fallback copy also failed: ", fallbackErr);
+						return false;
+					}
+				}
+			};
+			buttonEl.onclick = async () => {
+				const success = await copy();
+				if (success) {
+					statusTextEl.classList.remove("hidden");
+					setTimeout(() => statusTextEl.classList.add("hidden"), 3000);
+				}
+			};
 			(() => {
 				setTimeout(() => {
-					if (
-						"{REDIRECT}" == "True" &&
-						"{KUBERNETES_DASHBOARD_URL}".includes("http")
-					) {
-						copy();
-						statusTextEl.classList.remove("hidden");
-						window.location.href = "{KUBERNETES_DASHBOARD_URL}";
+					if ("{REDIRECT}" === "True" && "{KUBERNETES_DASHBOARD_URL}".includes("http")) {
+						console.log("Conditions met, copying and redirecting...");
+						copy().then((success) => {
+							if (success) {
+								statusTextEl.classList.remove("hidden");
+								setTimeout(() => window.location.href = "{KUBERNETES_DASHBOARD_URL}", 1000);
+							}
+						});
+					} else {
+						console.log("Redirect conditions not met");
 					}
-				}, 2000);
+				}, 500);
 			})();
 		</script>
 	</body>
