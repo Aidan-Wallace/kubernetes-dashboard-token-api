@@ -56,10 +56,9 @@ jobs:
       - name: Log in to GHCR using GITHUB_TOKEN
         run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login -u ${{ github.actor }} --password-stdin ghcr.io
 
-
       - name: Package and Push Charts to GHCR
         run: |
-          CHART_DIRS=$(find helm-charts -maxdepth 1 -mindepth 1 -type d)
+          CHART_DIRS=$(find helm-charts -maxdepth 2 -mindepth 1 -type f -name 'Chart.yaml' -exec dirname {} \;)
           for CHART in $CHART_DIRS; do
             helm dependency update "$CHART"
             helm lint "$CHART"
