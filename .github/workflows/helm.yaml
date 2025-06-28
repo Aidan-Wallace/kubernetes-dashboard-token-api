@@ -81,4 +81,3 @@ jobs:
 
             helm push "${pkg}" oci://ghcr.io/${GITHUB_REPOSITORY_OWNER}/charts
           done
-
