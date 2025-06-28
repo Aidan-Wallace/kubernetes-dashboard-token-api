@@ -62,8 +62,6 @@ jobs:
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.2.0
-        with:
-          charts_dir: helm-charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
@@ -81,5 +79,5 @@ jobs:
               break
             fi
 
-            helm push "${pkg}" oci://ghcr.io/${GITHUB_REPOSITORY_OWNER}/helm-charts
+            helm push "${pkg}" oci://ghcr.io/${GITHUB_REPOSITORY_OWNER}/charts
           done
