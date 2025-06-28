@@ -1,5 +1,7 @@
 replicaCount: 1
 
+kubernetesDashboardUrl: ""
+
 image:
   repository: aidanwallace/kubernetes-dashboard-token-api
   pullPolicy: Always
