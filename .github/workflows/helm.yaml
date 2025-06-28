@@ -22,19 +22,19 @@ jobs:
         uses: azure/setup-helm@v4
 
       - name: Restore Helm dependencies
-        run: helm dependency update ./helm-charts
+        run: helm dependency update ./charts/kubernetes-dashboard-token-api
 
       - name: Lint Helm charts
-        run: helm lint ./helm-charts
+        run: helm lint ./charts/kubernetes-dashboard-token-api
 
       - name: Template Helm charts (dry-run)
-        run: helm template ./helm-charts
+        run: helm template ./charts/kubernetes-dashboard-token-api
 
       - name: Run helm unittest (if tests exist)
         run: |
-          if [ -d "./helm-charts/tests" ]; then
+          if [ -d "./charts/kubernetes-dashboard-token-api/tests" ]; then
             helm plugin install https://github.com/helm-unittest/helm-unittest || true
-            helm unittest ./helm-charts
+            helm unittest ./charts/kubernetes-dashboard-token-api
           else
             echo "No helm unittest tests found, skipping."
           fi
