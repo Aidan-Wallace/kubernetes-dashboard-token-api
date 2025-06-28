@@ -61,8 +61,8 @@ jobs:
           for CHART in $CHARTS; do
               echo "📦 Packaging $CHART"
               FILE=$(helm package "$CHART" | awk -F': ' '/Successfully packaged chart and saved it to:/ {print $2}')
-              # Get the real chart name from Chart.yaml
               CHART_NAME=$(helm show chart "$CHART" | awk '/^name:/ {print $2}')
-              echo "🚀 Pushing $FILE to ghcr.io/${{ github.repository_owner }}/$CHART_NAME"
-              helm push "$FILE" oci://ghcr.io/${{ github.repository_owner }}/$CHART_NAME
+              PACKAGE_FILE=$(basename "$FILE")
+              echo "🚀 Pushing $PACKAGE_FILE to ghcr.io/Aidan-Wallace/$CHART_NAME"
+              helm push "$PACKAGE_FILE" oci://ghcr.io/Aidan-Wallace/$CHART_NAME
           done
