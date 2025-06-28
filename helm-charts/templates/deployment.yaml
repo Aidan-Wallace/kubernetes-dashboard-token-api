@@ -27,7 +27,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "kubernetes-dashboard-token-api.serviceAccountName" . }}
+      serviceAccountName: {{ .Values.rbac.serviceAccount.name | default "default" }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}

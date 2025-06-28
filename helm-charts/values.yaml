@@ -9,12 +9,6 @@ imagePullSecrets: []
 nameOverride: "dashboard-token-api"
 fullnameOverride: ""
 
-serviceAccount:
-  create: true
-  automount: true
-  annotations: {}
-  name: ""
-
 podAnnotations: {}
 podLabels: {}
 
@@ -88,3 +82,18 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+rbac:
+  enabled: true
+  serviceAccount:
+    name: "admin-user"
+    namespace: "kubernetes-dashboard"
+    annotations: {}
+  clusterRoleBinding:
+    name: "kubernetes-dashboard-admin"
+    roleRef:
+      name: "cluster-admin"
+    subjects:
+      serviceAccount:
+        name: "admin-user"
+        namespace: "kubernetes-dashboard"
