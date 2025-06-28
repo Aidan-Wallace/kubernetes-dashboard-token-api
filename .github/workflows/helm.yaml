@@ -5,11 +5,7 @@ on:
   push:
     branches: ["main"]
     paths:
-      - "charts/**"
-  pull_request:
-    branches: ["main"]
-    paths:
-      - "charts/**"
+      - "charts/kubernetes-dashboard-token-api/**"
 
 permissions:
   contents: write
