@@ -1,3 +1,17 @@
 apiVersion: v1
-entries: {}
-generated: "1970-01-01T00:00:00Z"
+entries:
+  kubernetes-dashboard-token-api:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-06-28T22:43:17.293050532Z"
+    description: A Helm chart for Kubernetes
+    digest: 4eeda98965c4eec2bb65d2164f7bec491137f5ad4436978e2b0b0e9598f29e70
+    maintainers:
+    - email: aidanwallacedev@gmail.com
+      name: aidan-wallace
+    name: kubernetes-dashboard-token-api
+    type: application
+    urls:
+    - https://github.com/Aidan-Wallace/kubernetes-dashboard-token-api/releases/download/kubernetes-dashboard-token-api-0.1.1/kubernetes-dashboard-token-api-0.1.1.tgz
+    version: 0.1.1
+generated: "2025-06-28T22:43:17.293055692Z"
