@@ -1,7 +1,7 @@
 fastapi[standard]
 httpx==0.28.1
-pytest-asyncio==0.24.0
+pytest-asyncio==0.25.3
 pytest-cov==6.0.0
 pytest==8.3.3
 python-dotenv
-ruff==0.6.8
+ruff==0.9.6
