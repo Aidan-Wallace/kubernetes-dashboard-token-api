@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "kubernetes-dashboard-token-api.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "kubernetes-dashboard-token-api.fullname" . }}:{{ .Values.service.port }}/health']
   restartPolicy: Never
