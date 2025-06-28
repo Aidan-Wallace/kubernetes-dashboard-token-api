@@ -12,35 +12,52 @@ permissions:
   packages: write
 
 jobs:
-  lint-test:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set up Helm
-        uses: azure/setup-helm@v4
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.11.2
 
-      - name: Restore Helm dependencies
-        run: helm dependency update ./charts/kubernetes-dashboard-token-api
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+          check-latest: true
 
-      - name: Lint Helm charts
-        run: helm lint ./charts/kubernetes-dashboard-token-api
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.6.0
 
-      - name: Template Helm charts (dry-run)
-        run: helm template ./charts/kubernetes-dashboard-token-api
-
-      - name: Run helm unittest (if tests exist)
+      - name: Run chart-testing (list-changed)
+        id: list-changed
         run: |
-          if [ -d "./charts/kubernetes-dashboard-token-api/tests" ]; then
-            helm plugin install https://github.com/helm-unittest/helm-unittest || true
-            helm unittest ./charts/kubernetes-dashboard-token-api
-          else
-            echo "No helm unittest tests found, skipping."
+          changed=$(ct list-changed --target-branch ${{ github.base_ref }})
+          if [[ -n "$changed" ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Run chart-testing (lint)
+        if: steps.list-changed.outputs.changed == 'true'
+        run: ct lint --target-branch ${{ github.base_ref }}
+
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.5.0
+        if: steps.list-changed.outputs.changed == 'true'
+        with:
+          version: "v0.14.0"
+
+      - name: Run chart-testing (install+upgrade)
+        if: steps.list-changed.outputs.changed == 'true'
+        run: ct install --upgrade --target-branch ${{ github.base_ref }}
+
   release:
-    # if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request'
 
     runs-on: ubuntu-latest
 
