@@ -40,10 +40,9 @@ jobs:
           fi
 
   release:
-    # if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request'
     needs: lint-test
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -53,16 +52,15 @@ jobs:
       - name: Install Helm push plugin
         run: helm plugin install https://github.com/chartmuseum/helm-push
 
-      - name: Log in to GHCR using GITHUB_TOKEN
+      - name: Log in to GHCR
         run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login -u ${{ github.actor }} --password-stdin ghcr.io
 
       - name: Package and Push Charts to GHCR
         run: |
-          CHART_DIRS=$(find helm-charts -maxdepth 2 -mindepth 1 -type f -name 'Chart.yaml' -exec dirname {} \;)
-          for CHART in $CHART_DIRS; do
-            helm dependency update "$CHART"
-            helm lint "$CHART"
-            helm package "$CHART"
-            CHART_FILE=$(ls $(basename "$CHART")-*.tgz)
-            helm push "$CHART_FILE" oci://ghcr.io/${{ github.repository_owner }}
+          CHARTS=$(find helm-charts -maxdepth 2 -mindepth 1 -type f -name 'Chart.yaml' -exec dirname {} \;)
+          for CHART in $CHARTS; do
+            echo "Packaging $CHART"
+            FILE=$(helm package "$CHART" | awk -F': ' '/Successfully packaged chart and saved it to:/ {print $2}')
+            echo "Pushing $FILE"
+            helm push "$FILE" oci://ghcr.io/${{ github.repository_owner }}
           done
