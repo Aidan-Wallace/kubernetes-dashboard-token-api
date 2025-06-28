@@ -59,8 +59,9 @@ jobs:
         run: |
           CHARTS=$(find helm-charts -maxdepth 2 -mindepth 1 -type f -name 'Chart.yaml' -exec dirname {} \;)
           for CHART in $CHARTS; do
-            echo "Packaging $CHART"
-            FILE=$(helm package "$CHART" | awk -F': ' '/Successfully packaged chart and saved it to:/ {print $2}')
-            echo "Pushing $FILE"
-            helm push "$FILE" oci://ghcr.io/${{ github.repository_owner }}
+              echo "📦 Packaging $CHART"
+              FILE=$(helm package "$CHART" | awk -F': ' '/Successfully packaged chart and saved it to:/ {print $2}')
+              CHART_NAME=$(basename "$CHART")
+              echo "🚀 Pushing $FILE to ghcr.io/Aidan-Wallace/$CHART_NAME"
+              helm push "$FILE" oci://ghcr.io/Aidan-Wallace/$CHART_NAME
           done
