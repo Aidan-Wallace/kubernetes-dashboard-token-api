@@ -53,8 +53,9 @@ jobs:
       - name: Install Helm push plugin
         run: helm plugin install https://github.com/chartmuseum/helm-push
 
-      - name: Log in to GHCR
-        run: echo "${{ secrets.CR_PAT }}" | helm registry login -u ${{ github.actor }} --password-stdin ghcr.io
+      - name: Log in to GHCR using GITHUB_TOKEN
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login -u ${{ github.actor }} --password-stdin ghcr.io
+
 
       - name: Package and Push Charts to GHCR
         run: |
