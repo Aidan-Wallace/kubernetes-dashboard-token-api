@@ -31,7 +31,6 @@ jobs:
         run: helm template ./helm-charts
 
       - name: Run helm unittest (if tests exist)
-        if: ${{ inputs.run-tests }}
         run: |
           if [ -d "./helm-charts/tests" ]; then
             helm plugin install https://github.com/helm-unittest/helm-unittest || true
@@ -52,6 +51,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configure Git
         run: |
